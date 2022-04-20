@@ -1,0 +1,45 @@
+body {
+padding:50px;
+    -webkit-transition: all 0.5s linear;
+    -moz-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+button {width: 50px;}
+li.done {
+    color: #999;
+    visibility: visible;
+    margin-left: 10px;
+}
+li.done::before {
+    font-family: "FontAwesome"; content: "\f00c";
+    padding-right:10px;
+    color: #146c43;
+}
+li.done::after {
+    content: "Done";
+    position: absolute;
+    right: 10px;
+    color: #cecece;
+    font-size: 11px;
+}
+li::before {
+    font-family: "FontAwesome"; content: "\f075";
+    padding-right:10px;
+    color: #e0e0e0;
+    cursor: pointer;
+}
+li::after {
+    content: "Click to complete";
+    right: 10px;
+    color: #8a8a8a;
+    font-size: 11px;
+    position: absolute;
+    right: 10px;
+}
+li {
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
