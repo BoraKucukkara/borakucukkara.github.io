@@ -72,3 +72,8 @@ li {
     list-style: none;
     padding: 5px 0 5px 0;
 }
+@media (min-width: 576px)
+.container, .container-sm {
+    max-width: 540px;
+    zoom: 2 !important;
+}
