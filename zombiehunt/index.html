@@ -59,7 +59,10 @@
                 <ul class="">
                     <li class=""
                         :class="{'turn_player' : log.turn == 'YOU', 'turn_zombie' : log.turn == 'ZOMBIE' }"
-                        v-for="log in logs">{{ log.turn }} {{ log.type }} <span class="">{{ log.point }} <i v-show="log.point > 20">Critical Hit!</i></span></li>
+                        v-for="log in logs">{{ log.turn }} {{ log.type }} <span class="rounded-pill">{{ log.point }}
+                        <i class="bg-light text-danger rounded-pill px-1" v-show="log.point > 20 && log.type == 'SUPER ATTACKED'">Critical Hit!</i>
+                        <i class="bg-light text-success rounded-pill px-1" v-show="log.point > 25">Critical Heal +</i>
+                    </span></li>
                 </ul>
             </section>
 
