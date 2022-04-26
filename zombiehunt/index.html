@@ -1,50 +1,56 @@
 <html>
     <head>
         <meta title="Zombie Hunt">
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <title>Zombie Hunt</title>
         <link rel="stylesheet" href="app.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     </head>
     <body>
         <div id="app" class="container p-3">
             <!-- SKILL BAR -->
-            <section class="row pt-3">
+            <section class="flex-row">
                 <div v-if="!is_attack" class="col m-auto text-center">
                     <img src="https://static.wikia.nocookie.net/plantsvszombies/images/a/af/Bbzzzzz.png"/>
-                    <h2 class="display-4 font-weight-bold">OMG! THERE IS A ZOMBIE ON THE ROAD!</h2>
-                    <button @click="start_game" class="btn btn-lg w-50 p-3 btn-danger">DEFEAT IT!!</button>
+                    <h2 class="display-4 fw-bolder">OMG! THERE IS A ZOMBIE ON THE ROAD!</h2>
+                    <button @click="start_game" class="btn bg-gradient btn-lg w-50 p-3 btn-danger">DEFEAT IT!!</button>
                 </div>
                 <div v-if="is_attack" class="col m-auto text-center">
                     <!-- HEALTH BAR -->
                     <section class="row pb-3 arena">
                         <div class="col-6 player">
                             <h4>You</h4>
-                            <img src="https://cdn.pixabay.com/photo/2022/02/20/15/34/avatar-7024802__340.png">
+                            <img v-if="player_heal > 0" src="https://cdn.pixabay.com/photo/2022/02/20/15/34/avatar-7024802__340.png">
+                            <img v-else class="became_zombie" src="https://static.wikia.nocookie.net/plantsvszombies/images/a/af/Bbzzzzz.png"/>
                             <div class="healthbarbox">
                                 <div class="healthbar" :style="{width : player_heal + '%'}"> {{ player_heal }}% </div>
                             </div>
                         </div>
                         <div class="col-6 zombie">
                             <h4>Zombie</h4>
-                            <img src="https://static.wikia.nocookie.net/plantsvszombies/images/a/af/Bbzzzzz.png"/>
+                            <img v-if="zombie_heal > 0" src="https://static.wikia.nocookie.net/plantsvszombies/images/a/af/Bbzzzzz.png"/>
+                            <img v-else class="zombie_down" src="https://static.wikia.nocookie.net/plantsvszombies/images/a/af/Bbzzzzz.png"/>
                             <div class="healthbarbox">
                                 <div class="healthbar" :style="{width : zombie_heal + '%'}"> {{ zombie_heal }}% </div>
                             </div>
                         </div>
                     </section>
                     <div v-if="player_heal <= 0">
-                        <h1 class="lost text-danger font-weight-bold display-1">YOU LOST!</h1>
-                        <button @click="runaway" class="btn btn-danger">Retry?</button>
+                        <h1 class="lost text-danger fw-bolder display-1">You became a zombie!</h1>
+                        <button @click="runaway" class="btn btn-danger btn-lg">Retry?</button>
                     </div>
                     <div v-else-if="zombie_heal <= 0">
-                        <h1 class="won text-success font-weight-bold display-1">YOU WON!</h1>
-                        <button @click="runaway" class="btn btn-success">Beat Another Zombie</button>
+                        <h1 class="won text-success fw-bolder display-1">YOU WON!</h1>
+                        <button @click="runaway" class="btn bg-gradient btn-success btn-lg">Beat Another Zombie</button>
                     </div>
                     <div v-else class="pt-3 pb-3">
-                        <button @click="attack" class="btn btn-danger btn-lg">Attack</button>
-                        <button @click="heavy_attack" class="btn btn-lg btn-primary" :disabled="super_attack_counter <= 0">Super Attack <span class="badge">{{ super_attack_counter }}</span></button>
-                        <button @click="healme" class="btn btn-lg btn-success" :disabled="heal_up_counter <= 0">Heal <span class="badge">{{ heal_up_counter }}</span></button>
+                        <button @click="attack" class="btn-skill btn btn-danger btn-lg">Attack</button>
+                        <button @click="heavy_attack" class="btn-skill btn btn-lg btn-primary" :disabled="super_attack_counter <= 0">Super Attack <span class="badge bg-dark bg-opacity-25">{{ super_attack_counter }}</span></button>
+                        <button @click="healme" class="btn-skill btn btn-lg btn-success" :disabled="heal_up_counter <= 0">Heal Yourself<span class="badge bg-dark bg-opacity-25">{{ heal_up_counter }}</span></button>
                     </div>
                 </div>
             </section>
@@ -53,7 +59,7 @@
                 <ul class="">
                     <li class=""
                         :class="{'turn_player' : log.turn == 'YOU', 'turn_zombie' : log.turn == 'ZOMBIE' }"
-                        v-for="log in logs">{{ log.turn }} {{ log.type }} <span class="">{{ log.point }}</span></li>
+                        v-for="log in logs">{{ log.turn }} {{ log.type }} <span class="">{{ log.point }} <i v-show="log.point > 20">Critical Hit!</i></span></li>
                 </ul>
             </section>
 
