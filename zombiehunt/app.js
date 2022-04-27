@@ -20,19 +20,23 @@ new Vue({
 
         },
         heavy_attack() {
-            var damage = Math.ceil(Math.random()* 25);
+            var damage = Math.ceil(Math.random()* 15) + 10;
             this.zombie_heal -= damage;
             this.zombie_attack();
             this.add_to_log({turn : "YOU", type : "SUPER ATTACKED", point : + damage});
             this.super_attack_counter -= 1
         },
         zombie_attack() {
-            var damage = Math.ceil(Math.random()* 15);
-            this.player_heal -= damage;
-            this.add_to_log({turn : "ZOMBIE", type : "ATTACKED", point : + damage});
+            that = this
+            setTimeout(function() {
+                var damage = Math.ceil(Math.random()* 20);
+                that.player_heal -= damage;
+                that.add_to_log({turn : "ZOMBIE", type : "ATTACKED", point : + damage});
+            }, 100)
+
         },
         healme() {
-            var heal = Math.ceil(Math.random() * 30);
+            var heal = Math.ceil(Math.random() * 20) + 10;
             this.player_heal += heal;
             this.zombie_attack();
             this.add_to_log({turn : "YOU", type : "HEALED YOURSELF", point : + heal});
